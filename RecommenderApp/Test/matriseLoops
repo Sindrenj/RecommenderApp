@@ -1,0 +1,32 @@
+Matrise gjennomganger:
+
+
+//			for(int row = 0; row < rows; row++ ) {
+//				System.out.println("Rad" + (row + 1) + ":");
+//				for(int col = 0; col < cols; col++) {
+//					System.out.println("Celle (" + row + ", " + col + ") :" + rec[row][col] );
+//				}
+//			}
+			
+			
+			
+//			for(int row = 0; row < rows; row++) {
+//				for(int col = 0; col < cols; col++) {
+//					if( row == 0) {
+//						rec[row][col] = col + 1;
+//					} else {
+//						rec[row][col] = (int )(Math.random() * 5 + 1);
+//					}					
+//				}
+//			}
+//			//Kolonner:
+//			for(int col = 0; col < cols; col++) {
+//				System.out.print("B" + (col + 1));
+//			}
+//			System.out.println("");
+//			for(int row = 0; row < rows; row++ ) {
+//				for(int col = 0; col < cols; col++) {
+//					System.out.print(rec[row][col]);
+//				}
+//				System.out.println("");
+//			}
