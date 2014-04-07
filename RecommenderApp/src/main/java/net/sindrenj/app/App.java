@@ -43,6 +43,8 @@ public class App{
 	}
 	
 	public static void doRecommending() {
+		
+		
 //			System.out.println("Creating data.. (A table with " + rows + " rows and " + cols + " columns)");
 //			// 1. Add the data:
 //			for(int row = 0; row < rows; row++) {
@@ -50,6 +52,9 @@ public class App{
 //					rec[row][col] = (int )(Math.random() * 5);		
 //				}
 //			}
+			
+			Cmd cmd = new Cmd();
+		
 //			
 //			//2. Connect users to the data:
 //			System.out.println("Connect the users to the recommendations");
@@ -59,39 +64,39 @@ public class App{
 //			}
 			
 			//Setup the model:
-			try {
-				//JDBCDataModel m = connect();
-				//2. Do the magic mahout shit here..
-				System.out.println("Running the recommender-engine..");
-				//Datamodel:
-				DataModel m = new FileDataModel(new File("data/movies.csv"));
-				
-				SVDRecommender svd = new SVDRecommender(m, new ALSWRFactorizer(m, 3, 0.05f, 50));
-				System.out.println(svd.recommend(3,1));
-				for (RecommendedItem recommendation : svd.recommend(3, 4)) 
-				{ 
-					 System.out.println(recommendation); 	 
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			
-			//SVDRecommender svdRec = new SVDRecommender();
-			//GenericDataModel dataModel = new GenericDataModel(dataModel);
-			
-			//3. Create the GUI and show the recommendations:
-//			System.out.println("Creating the gui..");
-//			GUI gui = new GUI(rec, kolonneNavn);
+//			try {
+//				//JDBCDataModel m = connect();
+//				//2. Do the magic mahout shit here..
+//				System.out.println("Running the recommender-engine..");
+//				//Datamodel:
+//				DataModel m = new FileDataModel(new File("data/movies.csv"));
+//				
+//				SVDRecommender svd = new SVDRecommender(m, new ALSWRFactorizer(m, 3, 0.05f, 50));
+//				System.out.println(svd.recommend(3,1));
+//				for (RecommendedItem recommendation : svd.recommend(3, 4)) 
+//				{ 
+//					 System.out.println(recommendation); 	 
+//				}
+//			} catch(Exception e) {
+//				e.printStackTrace();
+//			}
 //			
-//			//4. Create the table:
-//			gui.setupTable();
-	    	
-//	    	List<RecommendedItem> recommendations = recommender.recommend(1, 3);
-//	    	for (RecommendedItem recommendation : recommendations) {
-//	    	  System.out.println(recommendation);
-//	    	}
-			System.out.println("Finished..!");
+//			
+//			//SVDRecommender svdRec = new SVDRecommender();
+//			//GenericDataModel dataModel = new GenericDataModel(dataModel);
+//			
+//			//3. Create the GUI and show the recommendations:
+////			System.out.println("Creating the gui..");
+////			GUI gui = new GUI(rec, kolonneNavn);
+////			
+////			//4. Create the table:
+////			gui.setupTable();
+//	    	
+////	    	List<RecommendedItem> recommendations = recommender.recommend(1, 3);
+////	    	for (RecommendedItem recommendation : recommendations) {
+////	    	  System.out.println(recommendation);
+////	    	}
+//			System.out.println("Finished..!");
 	}
 	
 	public static JDBCDataModel connect() throws SQLException{
