@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -67,11 +68,11 @@ public class Database {
 			}
 		}
 		
-		public void brukAvJDBCDatamodell() {
+		public ArrayList<User> getRatings() throws SQLException {
+			ArrayList<User> ratings = new ArrayList<User>();
+			//Define the sql-query:
+			String sql = "SELECT person, film, rate FROM rating ORDER BY person";
 			
-			System.out.println("Success!");
-			
-			
-			
+			return null;
 		}
 }

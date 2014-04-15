@@ -1,13 +1,18 @@
 package net.sindrenj.app;
 
 public class Movie {
+	int id;
 	String name;
-	String picture;
-	double score;
+	String date;
+	int score;
 	
-	public Movie(String name, String picture) {
+	public Movie(int id, String name) {
+		this.id = id;
 		this.name = name;
-		this.picture = picture;
 		this.score = 0;
+	}
+	
+	public String toString() {
+		return id + ", " + name + ", " + date; 
 	}
 }

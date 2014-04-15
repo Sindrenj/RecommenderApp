@@ -9,24 +9,101 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MovieConvert {
-	final static String filePathIn = "data/movies.txt";
-	//final static String filePathOut = "data/movies.csv";
+	private String filePathMovies; 
+	private String filePathOut;
+	private String filePathMoviesToRate;
+	private String suffix; //Filetype
+	private boolean appendToFile;
 	
-	public ArrayList<Movie> movies = new ArrayList<Movie>();
+	public MovieConvert(String fpOut, String fpMoviesToRate, String fileEnding, boolean appendToFile) {
+		filePathOut = fpOut;
+		filePathMoviesToRate = fpMoviesToRate;
+		suffix = fileEnding;
+		this.appendToFile = appendToFile;
+	}
+
+	/**
+	 * saveRatings()
+	 * Writes the ratings to the movieLens-file.
+	 * @param user
+	 * @throws IOException
+	 */
+	public void saveRatings(User user) throws IOException {
+		System.out.println("Writing to file");
+		BufferedWriter bw = new BufferedWriter(new FileWriter(filePathOut + suffix, appendToFile));
+			for(Movie m : user.getRatings()) {
+				//User, Movie, Score
+				bw.write(user.getId() + "," + m.id + "," + m.score + "\n");
+				System.out.println("== Debug-LOG ==\"Wrote:" + user.getId() + "," + m.id + "," + m.score + "\"\n");
+			}
+		bw.close();
+	}
 	
-	public MovieConvert() throws Exception {
-		System.out.println("Reading from movielist");
-		BufferedReader br = new BufferedReader(new FileReader(filePathIn));
-		//BufferedWriter bw = new BufferedWriter(new FileWriter(filePathOut));
-		System.out.println("Converting files..");
+	
+	/**
+	 * searchForMovie()
+	 * Searches for movie using the String id
+	 * @param id
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public Movie searchForMovie(String id) throws NumberFormatException, IOException, Exception {
+		BufferedReader br = new BufferedReader(new FileReader("data/u.item"));
+
+		Movie mv = null;
 		String line;
 		while((line = br.readLine()) != null ) {
-			String[] values = line.split("\\t", - 1);
-			movies.add(new Movie(values[0], values[1]));
+			String[] values = line.split("\\|");
+			System.out.println("Just read:" + values[0]);
+			if( values[0].equals(id) ){ //Found matching id
+				System.out.println("Found the movie" + id);
+				mv = new Movie(Integer.parseInt(values[0]), values[1]);
+				//Found the movie, no reason to proceed. Quit the loop:
+			}
+		}
+		
+		br.close();
+		
+		return mv;
+	}
+	
+	/**
+	 * readMoviesFromFile()
+	 * Reads movies from a file and returns an arraylist of Movie-objects
+	 * @param m_name_list
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Movie> readMoviesFromFile(String m_name_list) throws Exception {
+		System.out.println("Reading from movielist");
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+		BufferedReader br = new BufferedReader(new FileReader(filePathMoviesToRate + m_name_list +  suffix));
+		//BufferedWriter bw = new BufferedWriter(new FileWriter(filePathOut));
+		String line;
+		while((line = br.readLine()) != null ) {
+			String[] values = line.split(",");
+			movies.add(new Movie(Integer.parseInt(values[0]), values[1]));
 			//bw.write(values[0] + "," + values[1] + "," + values[2] + "\n");
 		}
-		System.out.println("Finished!");
+		System.out.println("Done!");
 		br.close();
-		//bw.close();
+		return movies;
+		
+	}	
+	
+	public int findMaxId() throws NumberFormatException, IOException {
+		System.out.println("Reading from: " + filePathOut + suffix);
+		BufferedReader br = new BufferedReader(new FileReader(filePathOut + suffix));
+		
+		String line;
+		int max = 0;
+		while((line = br.readLine()) != null ) {
+			String[] values = line.split(",");
+			int id = Integer.parseInt(values[0]);
+			if(id > max) max = id;
+		}
+		
+		return max;
 	}
 }
