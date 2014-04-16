@@ -30,7 +30,7 @@ public class App {
 		System.out.println("SVD Recommender(Mahout)");
 		try {
 //			//MvoieLens-file, Path to movielists, fileending, appendToFile?
-//			MovieConvert mvC = new MovieConvert("data/ratings", "data/movies_to_rate/", ".csv", true);
+			mvC = new MovieConvert("data/ratings", "data/movies_to_rate/", ".csv", true);
 //			//Create an id from the last id in the dataset-file:
 //			int newId = mvC.findMaxId() + 1;
 //			System.out.println("Your ID will be:");
@@ -56,7 +56,7 @@ public class App {
 //			//Append the ratings to the movielensfile:
 //			mvC.saveRatings(user);
 //			//Recommend some movies:
-			User user = new User(943);
+			User user = new User(50);
 			recommend(user, 5);			
 		} catch (IOException e) {
 			System.out.println("Read/Write error: " + e.getMessage());
@@ -76,11 +76,9 @@ public class App {
 		for (RecommendedItem recommendation : svd.recommend(user.getId(), nMovies)) 
 		{ 
 			//Get the recommended movie from u.item:
-			System.out.println(recommendation);
 			Movie mv = mvC.searchForMovie( recommendation.getItemID() + "" );
 			//Print the recommended films:
-			//System.out.println(mv.name + ", Score:" + recommendation.getValue());
-			System.out.println(recommendation.getValue());
+			System.out.println(mv.name + ", Score:" + mv.score);
 		}
 	}	
 }

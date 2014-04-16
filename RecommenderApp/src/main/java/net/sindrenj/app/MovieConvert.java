@@ -50,16 +50,17 @@ public class MovieConvert {
 	 */
 	public Movie searchForMovie(String id) throws NumberFormatException, IOException, Exception {
 		BufferedReader br = new BufferedReader(new FileReader("data/u.item"));
-
 		Movie mv = null;
 		String line;
-		while((line = br.readLine()) != null ) {
+		System.out.print(id);
+		boolean found = false;
+		while((line = br.readLine()) != null && !found) {
 			String[] values = line.split("\\|");
-			System.out.println("Just read:" + values[0]);
+			//System.out.println("Just read:" + values[0]);
 			if( values[0].equals(id) ){ //Found matching id
-				System.out.println("Found the movie" + id);
 				mv = new Movie(Integer.parseInt(values[0]), values[1]);
 				//Found the movie, no reason to proceed. Quit the loop:
+				found = true;
 			}
 		}
 		
