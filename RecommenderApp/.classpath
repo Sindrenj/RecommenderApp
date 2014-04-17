@@ -21,6 +21,5 @@
 	<classpathentry kind="lib" path="Lib/slf4j-nop-1.7.6.jar"/>
 	<classpathentry kind="lib" path="Lib/mysql-connector-java-5.1.29-bin.jar"/>
 	<classpathentry kind="lib" path="/recommender_system/lib/mahout-integration-0.9.jar"/>
-	<classpathentry kind="lib" path="images/movie_roll_icon.png"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

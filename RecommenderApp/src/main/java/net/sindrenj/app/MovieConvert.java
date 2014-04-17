@@ -84,7 +84,8 @@ public class MovieConvert {
 		String line;
 		while((line = br.readLine()) != null ) {
 			String[] values = line.split(",");
-			movies.add(new Movie(Integer.parseInt(values[0]), values[1]));
+			Movie mv = this.searchForMovie(values[0]);
+			movies.add(mv);
 			//bw.write(values[0] + "," + values[1] + "," + values[2] + "\n");
 		}
 		System.out.println("Done!");

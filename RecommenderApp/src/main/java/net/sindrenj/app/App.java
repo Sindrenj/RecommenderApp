@@ -24,6 +24,8 @@ public class App {
 	private static Scanner input = new Scanner( System.in );
 	//Fileoperations:
 	private static MovieConvert mvC;
+	//GUI:
+	private static AppGUI gui = null;
 		
 	public static void main( String[]args ) {
 		System.out.println("Welcome to movie recommender 3000(Java Edition)");
@@ -31,33 +33,41 @@ public class App {
 		try {
 //			//MvoieLens-file, Path to movielists, fileending, appendToFile?
 			mvC = new MovieConvert("data/ratings", "data/movies_to_rate/", ".csv", true);
+			//Create the GUI:
+			gui = new AppGUI("Movierecommender 3000");
 //			//Create an id from the last id in the dataset-file:
-//			int newId = mvC.findMaxId() + 1;
+			int newId = mvC.findMaxId() + 1;
 //			System.out.println("Your ID will be:");
 //			System.out.println(newId);
 //			//Create the user with the id:
-//			User user = new User(newId);
+			User user = new User(newId);
 //			//Get the preference(Default: action):
-//			String m_name_list = "action";
+			String m_name_list = "action";
 //			//Select the test-questions:
 //			System.out.println("Select your preference:");
 //			m_name_list = input.next();
 //			//Get the list of movies:
-//			movies = mvC.readMoviesFromFile(m_name_list);
+			movies = mvC.readMoviesFromFile(m_name_list);
 //			System.out.println("Please rate the following movies:");
 //			//Get the ratings:
-//			for(Movie mv : movies) {
+			for(Movie mv : movies) {
 //				System.out.println("Rate " + mv.id + "," + mv.name);
+				gui.lblMovieName.setText(mv.name);
 //				//Get the score:
-//				mv.score = Integer.parseInt(input.next());
+				mv.score = Integer.parseInt(input.next()); //Hente ratings her..!
 //				//Add the movie to the userlist
-//				user.addRating(mv);
-//			}
+				user.addRating(mv);
+			}
 //			//Append the ratings to the movielensfile:
-//			mvC.saveRatings(user);
+			mvC.saveRatings(user);
 //			//Recommend some movies:
-			User user = new User(50);
-			recommend(user, 5);			
+			for(RecommendedItem rec : recommend(user, 5)) {
+				//Find the movie:
+				Movie mv = mvC.searchForMovie( rec.getItemID() + "" );
+				//Show results to the GUI:
+				gui.lstRecommendations.add(mv.toString());
+
+			}
 		} catch (IOException e) {
 			System.out.println("Read/Write error: " + e.getMessage());
 		} catch (Exception e) {
@@ -66,25 +76,24 @@ public class App {
 		}
 }
 	
-	public static void recommend(User user, int nMovies) throws Exception {
+	public static ArrayList<RecommendedItem> recommend(User user, int nMovies) throws Exception {
 		//Read ratings from file:
 		DataModel m = new FileDataModel(new File("data/ratings.csv"));
 		//Create a SVDRecommender:
 		SVDRecommender svd = new SVDRecommender(m, new ALSWRFactorizer(m, 10, 0.05, 10));
 		//Get recommendations:
 		System.out.println("We recommend following films:");
-		for (RecommendedItem recommendation : svd.recommend(user.getId(), nMovies)) 
-		{ 
-			//Get the recommended movie from u.item:
-			Movie mv = mvC.searchForMovie( recommendation.getItemID() + "" );
-			//Print the recommended films:
-			System.out.println(mv.name + ", Score:" + mv.score);
-		}
+		
+		return (ArrayList<RecommendedItem>) svd.recommend(user.getId(), nMovies);
 	}	
 }
 
 
-
+//}
+////Get the recommended movie from u.item:
+//Movie mv = mvC.searchForMovie( recommendation.getItemID() + "" );
+////Print the recommended films:
+//System.out.println(mv.name + ", Score:" + mv.score);
 
 
 
