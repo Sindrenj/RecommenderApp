@@ -4,7 +4,7 @@ public class Movie {
 	int id;
 	String name;
 	String date;
-	int score;
+	float score;
 	
 	public Movie(int id, String name) {
 		this.id = id;
@@ -13,6 +13,6 @@ public class Movie {
 	}
 	
 	public String toString() {
-		return id + ", " + name + ", " + date; 
+		return id + ", " + name + ", " + score; 
 	}
 }

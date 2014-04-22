@@ -1,61 +1,61 @@
 package net.sindrenj.app;
 
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.List;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JList;
 
-public class GUI extends JFrame{
+public class GUI extends JFrame {
+	//Recommendationlist:
+	List lstRecommendations;
+	JFrame frame;	
+	App controller;
 	
-	private JTable tbl;
-	private Object[][] data; //The recommendations
-	private String[] columnNames; //The users(Divided in columns)
-	
-	public GUI() {
-		Object[] options = {1,2,3, 4, 5};
+	public GUI(String frameTitle, App controller) {
+		this.controller = controller;
+		frame = new JFrame();
+		frame.setBounds(100, 100, 600, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setIconImage(new ImageIcon("data/bilder/movie_roll_icon.png").getImage());
+		frame.getContentPane().setLayout(null);
 		
-//		for()
-//		int n = JOptionPane.showOptionDialog(frame,
-//			    "Give a score between 1-5"
-//			    + "with that ham?",
-//			    "Rate movie" . mv.name,
-//			    JOptionPane.YES_NO_CANCEL_OPTION,
-//			    JOptionPane.QUESTION_MESSAGE,
-//			    null,
-//			    options,
-//			    options[2]);
+		JLabel label = new JLabel("Movie Recommender 3000");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		label.setBounds(0, 0, 584, 25);
+		frame.getContentPane().add(label);
 		
-	}
-	
-	public void createTable(Object[][] data, String[] columnNames) {
-		//Assign the data:
-		this.data = data;
-		this.columnNames = columnNames;
-		//Title:
-		setTitle("Movie recommendations");
-		//Size:
-	    setSize(600, 300);
-	    setLocationRelativeTo(null);
-	    //How to close:
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    //Gjør vinduet synlig:
-	    setVisible(true);
-	}
-	
-	public void setupTable() {
-		tbl = new JTable(data, columnNames);
-		JScrollPane pane = new JScrollPane(tbl);
-		add(pane);
-	}
-	
-	public void rot() {
+		JLabel lblWeRecommend = new JLabel("We recommend:");
+		lblWeRecommend.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblWeRecommend.setBounds(10, 36, 574, 14);
+		frame.getContentPane().add(lblWeRecommend);
 		
+		JList<?> list = new JList<Object>();
+		list.setBounds(20, 243, 554, -181);
+		frame.getContentPane().add(list);
+		setVisible(true);
+		startRecommendations();
+	}
 
-		
-		
+	public void startRecommendations() {		try {
+			ArrayList<Movie> movies = controller.getListOfMoviesToRate("action");;			for(Movie mv : movies) {				new RateMovieGUI(controller, mv, this, "Rate " + mv.name);
+			}
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(null,
+			e.getMessage(),
+			"Error",
+			JOptionPane.ERROR_MESSAGE);
+		}
 	}
-	
-	
-	
-	
 }
